@@ -57,6 +57,16 @@ public Destino() {
 						"cidade: " + this.cidade;
 				
 			}
+
+			public Destino getDestino() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			public static void setIdLogin(int int1) {
+				// TODO Auto-generated method stub
+				
+			}
 	
 	
 

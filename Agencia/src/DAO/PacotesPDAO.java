@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import connection.ConnectionMySQL;
+import crud.pacotesPromocionais;
 import modelo.Pacotes;
 public class PacotesPDAO {
 
@@ -76,6 +77,8 @@ public class PacotesPDAO {
 				pacotes.setOrigem(rset.getString("origem"));
 				
 				pacotes.setPromocao(rset.getDouble("promocao"));
+				
+				pacotes.setPromocao(rset.getDate("destino"));
 
 				
 				
@@ -107,7 +110,7 @@ public class PacotesPDAO {
 	// Metodo pra atualizar
 
 	public void update(Pacotes pacotes) {
-		String sql = "UPDATE pacotesPromocionais set origem = ? promocao = ?   where id_pacote = ?;";
+		String sql = "UPDATE pacotesPromocionais set origem = ?" + "promocao = ?" + "destino = ?" + "where id_pacote = ?;";
 
 		try {
 			conn = ConnectionMySQL.createConnectionMySQL();
@@ -210,6 +213,11 @@ public class PacotesPDAO {
 		}
 
 		return pacotes;
+	}
+
+	public pacotesPromocionais getId_pacoteById(int id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

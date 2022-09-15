@@ -14,6 +14,7 @@ import modelo.Clientes;
 import modelo.Compras1;
 import modelo.Pacotes;
 
+@SuppressWarnings("unused")
 public class ComprasDAO {
 
 	Connection conn = null;

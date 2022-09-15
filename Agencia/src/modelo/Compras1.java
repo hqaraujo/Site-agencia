@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 import modelo.Clientes;
 import modelo.Pacotes;
 
+@SuppressWarnings("unused")
 public class Compras1 {
 
 	// Atributos
@@ -122,6 +123,7 @@ public class Compras1 {
 		return super.toString();
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	protected void finalize() throws Throwable {
 		// TODO Auto-generated method stub

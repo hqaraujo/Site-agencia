@@ -1,84 +1,109 @@
+package crud;
 import java.util.Date;
 import java.util.Scanner;
 
-public class Login {
+import DAO.PacotesPDAO;
+import modelo.Pacotes;
+
+public class pacotesPromocionais {
+
+	public pacotesPromocionais() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public pacotesPromocionais(int id_pacote, String origem, double promocao, double destino) {
+		// TODO Auto-generated constructor stub
+	}
 
 	public static void main(String args[]) {
 
-		ContatoDAO contatoDAO = new ContatoDAO();
-		Contato contato = new Contato();
+		PacotesPDAO pacotesPDAO = new PacotesPDAO();
+		Pacotes pacotesP = new Pacotes();
 
 		Scanner entrada = new Scanner(System.in);
-		int opcao = 0;
-		String nome = "";
-		int idade = 0;
-		int codigo = 0;
+		int id_pacote = 0;
+		String origem = "";
+		double promocao = 0;
+		double destino = 0;
 
+		int opcao;
 		do {
 
-			System.out.println("===== Agenda =====");
-			System.out.println("1 - Cadastro de contato");
-			System.out.println("2 - Excluir contato");
-			System.out.println("3 - Atualizar contato");
-			System.out.println("4 - Mostrar contatos");
+			System.out.println("===== Pacotes Promocionais =====");
+			System.out.println("1 - Cadastro ");
+			System.out.println("2 - Excluir cadastro");
+			System.out.println("3 - Atualizar cadastro");
+			System.out.println("4 - Mostrar cadatros");
 			System.out.println("5 - Buscar por ID");
 			System.out.println("6 - Sair");
 			opcao = entrada.nextInt();
 
 			switch (opcao) {
 			case 1: {
-				System.out.println("Digite o nome do contato: ");
-				nome = entrada.next();
-				contato.setNome(nome);
+				System.out.println("Digite o id  pacote: ");
+				id_pacote = entrada.nextInt();
+				pacotesP.setId_pacote(id_pacote);
+				
+				System.out.println("Digite a origem: ");
+				origem = entrada.toString();
+				pacotesP.setOrigem(origem);
 
-				System.out.println("Digite a idade do contato: ");
-				idade = entrada.nextInt();
-				contato.setIdade(idade);
 
-				contato.setDataCadastro(new Date());
+				System.out.println("Digite a promocao: ");
+				promocao = entrada.nextDouble();
+				pacotesP.setPromocao(promocao);
+				
+				System.out.println("Digite o destino: ");
+				destino = entrada.nextDouble();
+				pacotesP.setDestino(destino);
 
-				contatoDAO.save(contato);
+				pacotesP.setDestino(new Date());
+				
+				pacotesPromocionais pacotesP1 = new pacotesPromocionais(id_pacote, origem, promocao, destino);
+
+				pacotesP1.save(pacotesP1);
 				break;
 			}
 			case 2: {
 				System.out.println("Digite o codigo do contato para exclusao: ");
 				try {
-					codigo = entrada.nextInt();
+					id_pacote = entrada.nextInt();
 					
-					contatoDAO.removeById(codigo);
+					pacotesP.removeById(id_pacote);
 					
 				} catch (Exception e) {
 					// e.getMessage();
 					 
-					System.out.println(" Nenhum contato para excluir ");
+					System.out.println(" Nenhum id_pacote para excluir ");
 				}
 
 				break;
 			}
 			case 3: {
 
-				System.out.println("Digite o codigo do contato para atualizar: ");
-				codigo = entrada.nextInt();
+				System.out.println("Digite o id_pacote para atualizar: ");
+				id_pacote = entrada.nextInt();
 
-				System.out.println("Digite o novo nome do contato: ");
-				nome = entrada.next();
-				contato.setNome(nome);
+				System.out.println("Digite o novo id_pacote: ");
+				id_pacote = entrada.nextInt();
+				pacotesP.setId_pacote(id_pacote);
 
-				System.out.println("Digite a nova idade do contato: ");
-				idade = entrada.nextInt();
-				contato.setIdade(idade);
+				System.out.println("Digite a nova origem: ");
+				origem = entrada.toString();
+				pacotesP.setOrigem(origem);
 
-				contato.setDataCadastro(new Date());
+				pacotesP.setDestino(new Date());
 
-				contato.setId(codigo);
+				pacotesP.setId(id_pacote);
 
-				contatoDAO.update(contato);
+				pacotesPDAO.update(pacotesP);
 			}
 			case 4: {
-				for (Contato c : contatoDAO.getContatos()) {
-					System.out.println("NOME: " + c.getNome());
-					System.out.println("IDADE: " + c.getIdade());
-					System.out.println("DATA CADASTRO: " + c.getDataCadastro());
+				for (Pacotes c : pacotesPDAO.getPacotes()) {
+					System.out.println("Id_pacote: " + c.getId_pacote());
+					System.out.println("Origen: " + c.getOrigem());
+					System.out.println("Promocao: " + c.getPromocao());
+					System.out.println("Destino: " + c.getDestino());
 
 					System.out.println("----------------------------------- ");
 				}
@@ -89,20 +114,21 @@ public class Login {
 				System.out.print("Digite o ID para buscar: ");
 				int id = entrada.nextInt();
 				
-				Contato c = new Contato();
+				pacotesPromocionais c = new pacotesPromocionais();
 
-				c = contatoDAO.getContatoById(id);
+				c = pacotesPDAO.getId_pacoteById(id);
 
-				System.out.println("NOME: " + c.getNome());
-				System.out.println("IDADE: " + c.getIdade());
-				System.out.println("DATA CADASTRO: " + c.getDataCadastro());
+				System.out.println("Id_pacote: " + c.getId_pacote());
+				System.out.println("Origem: " + c.getOrigem());
+				System.out.println("Promocao: " + c.getPromocao());
+				System.out.println("Destino: " + c.getDestino());
 
 				System.out.println("----------------------------------- ");
 			}
 				break;
 
 			case 6: {
-				System.out.println(" === Obrigado por usar nossa Agenda === ");
+				System.out.println(" === Obrigado por usar nossa Agencia === ");
 				break;
 			}
 			default:
@@ -114,5 +140,30 @@ public class Login {
 
 		entrada.close();
 
+	}
+
+	private String getDestino() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private String getPromocao() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private String getOrigem() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private String getId_pacote() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private void save(pacotesPromocionais pacotesP1) {
+		// TODO Auto-generated method stub
+		
 	}
 }

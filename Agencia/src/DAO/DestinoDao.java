@@ -9,6 +9,7 @@ import java.util.List;
 
 
 import connection.ConnectionMySQL;
+import modelo.Destino;
 
 public class DestinoDao {
 
@@ -16,7 +17,7 @@ public class DestinoDao {
 	PreparedStatement pstm = null;
 
 	// Metodo pra salvar
-	public void save(Destino destino) {
+	public void save(crud.Destino destino1) {
 		String sql = "INSERT INTO destino (pais, cidade, id_destino) values(?,?,?)";
 		
 		
@@ -28,10 +29,10 @@ public class DestinoDao {
 			pstm = conn.prepareStatement(sql);
 
 			// Adicionar o valor do primeiro parametro da sql
-			pstm.setString(1, destino.getPais());
-			pstm.setString(1, destino.getCidade());
+			pstm.setNString(1, destino1.getPais());
+			pstm.setString(1, destino1.getCidade());
 			
-			pstm.setInt(3,destino.getDestino().getId_destino());
+			pstm.setInt(3,destino1.getDestino().getId_destino());
 			
 		
 			
@@ -59,7 +60,7 @@ public class DestinoDao {
 	public List<Destino> getDestino() {
 		String sql = "select * from destino;";
 
-		List<Destino> lista = new ArrayList<destino>();
+		List<Destino> lista = new ArrayList<Destino>();
 
 		// Classe que vai recuperar os dados do banco de dados
 		ResultSet rset = null;
@@ -72,13 +73,15 @@ public class DestinoDao {
 			rset = pstm.executeQuery();
 
 			while (rset.next()) {
-				Login login = new Login();
+				Destino destino = new Destino();
 
-				login.setId_login(rset.getInt("id_login"));
+				destino.setId_destino(rset.getInt("id_destino"));
 
-				login.setTipo_login(rset.getString("tipo_login"));
+				destino.setPais(rset.getString("Pais"));
+				
+				destino.setCidade(rset.getString("Cidade"));
 
-				lista.add(login);
+				lista.add(destino);
 
 			}
 
@@ -105,16 +108,18 @@ public class DestinoDao {
 	}
 	// Metodo pra atualizar
 
-	public void update(Login login) {
-		String sql = "UPDATE login set tipo_login = ? WHERE id_login = ?;";
+	public void update(Destino destino) {
+		String sql = "UPDATE destino set pais = ?" + " cidade = ?" +
+				 "WHERE id_destino = ?;";
 
 		try {
 			conn = ConnectionMySQL.createConnectionMySQL();
 
 			pstm = conn.prepareStatement(sql);
 
-			pstm.setString(1, login.getTipo_login());
-			pstm.setInt(2, login.getId_login());
+			pstm.setString(1, destino.getPais());
+			pstm.setString(2, destino.getCidade());
+			pstm.setInt(3, destino.getId_destino());
 
 
 			pstm.execute();
@@ -137,7 +142,7 @@ public class DestinoDao {
 
 	// Metodo para deletar
 	public void deleteById(int id) {
-		String sql = "DELETE FROM login WHERE id_login = ?";
+		String sql = "DELETE FROM destino WHERE id_destino = ?";
 
 		try {
 			conn = ConnectionMySQL.createConnectionMySQL();
@@ -164,10 +169,10 @@ public class DestinoDao {
 		}
 	}
 
-	public Login getLoginById(int id) {
-		String sql = "SELECT * FROM login WHERE id_login = ?;";
+	public Destino getDestinoById(int id) {
+		String sql = "SELECT * FROM destino WHERE id_destino = ?;";
 
-		Login login = new Login();
+		Destino destino = new Destino();
 
 		ResultSet rset = null;
 
@@ -182,9 +187,12 @@ public class DestinoDao {
 
 			rset.next();
 
-			login.setId_login(rset.getInt("id_login"));
+			destino.setId_destino(rset.getInt("id_destino"));
 
-			login.setTipo_login(rset.getString("tipo_login"));
+			destino.setPais(rset.getString("pais"));
+			
+			destino.setCidade(rset.getString("cidade"));
+
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -201,7 +209,22 @@ public class DestinoDao {
 			}
 		}
 
-		return login;
+		return destino;
+	}
+
+	public void update(crud.Destino destino) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void removeById(int id_destino) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public crud.Destino getId_destinoById(int id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

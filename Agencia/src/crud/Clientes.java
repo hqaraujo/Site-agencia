@@ -15,9 +15,10 @@ public class Clientes {
 		
 		
 		int id_cliente = 0;
-		String email_cliente = " ";
+		String cpf_cliente = " ";
 	    String nome_cliente = "";
-        String cpf_cliente = "";
+        String email_cliente = "";
+        Destino login = 0;
         
         ArrayList<Clientes> clientes = new ArrayList<Clientes>();
 

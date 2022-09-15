@@ -1,51 +1,69 @@
-import java.util.Date;
+package crud;
+
 import java.util.Scanner;
+
+import DAO.DestinoDao;
+
 
 public class Destino {
 
+	public Destino() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public Destino(int id_destino, String pais, String cidade) {
+		// TODO Auto-generated constructor stub
+	}
+
 	public static void main(String args[]) {
 
-		ContatoDAO contatoDAO = new ContatoDAO();
-		Contato contato = new Contato();
+		DestinoDao destinoDAO = new DestinoDao();
+		Destino destino = new Destino();
 
 		Scanner entrada = new Scanner(System.in);
-		int opcao = 0;
-		String nome = "";
-		int idade = 0;
-		int codigo = 0;
+		int id_destino = 0;
+		String pais = "";
+		String cidade = "";
+		
 
+		int opcao;
 		do {
 
-			System.out.println("===== Agenda =====");
-			System.out.println("1 - Cadastro de contato");
-			System.out.println("2 - Excluir contato");
-			System.out.println("3 - Atualizar contato");
-			System.out.println("4 - Mostrar contatos");
+			System.out.println("===== Destino =====");
+			System.out.println("1 - Cadastro de Destino");
+			System.out.println("2 - Excluir destino");
+			System.out.println("3 - Atualizar destino");
+			System.out.println("4 - Mostrar destinos");
 			System.out.println("5 - Buscar por ID");
 			System.out.println("6 - Sair");
 			opcao = entrada.nextInt();
 
 			switch (opcao) {
 			case 1: {
-				System.out.println("Digite o nome do contato: ");
-				nome = entrada.next();
-				contato.setNome(nome);
+				System.out.println("Digite o Id_destino: ");
+				id_destino = entrada.nextInt();
+				
 
-				System.out.println("Digite a idade do contato: ");
-				idade = entrada.nextInt();
-				contato.setIdade(idade);
+				System.out.println("Digite o pais: ");
+				pais = entrada.next();
+				
+				System.out.println("Digite a cidade: ");
+				cidade = entrada.next();
+				
+				Destino destino1 = new Destino(id_destino, pais, cidade);
+			
 
-				contato.setDataCadastro(new Date());
 
-				contatoDAO.save(contato);
+				destinoDAO.save(destino1);
 				break;
 			}
 			case 2: {
-				System.out.println("Digite o codigo do contato para exclusao: ");
+				System.out.println("Digite o codigo do destino para exclusao: ");
 				try {
-					codigo = entrada.nextInt();
+					id_destino = entrada.nextInt();
 					
-					contatoDAO.removeById(codigo);
+					destinoDAO.removeById(id_destino);
+					
 					
 				} catch (Exception e) {
 					// e.getMessage();
@@ -57,28 +75,35 @@ public class Destino {
 			}
 			case 3: {
 
-				System.out.println("Digite o codigo do contato para atualizar: ");
-				codigo = entrada.nextInt();
+				System.out.println("Digite o codigo do destino para atualizar: ");
+				id_destino = entrada.nextInt();
 
-				System.out.println("Digite o novo nome do contato: ");
-				nome = entrada.next();
-				contato.setNome(nome);
+				System.out.println("Digite o novo  id_destino: ");
+				id_destino = entrada.nextInt();
+				destino.setId_destino(id_destino);
 
-				System.out.println("Digite a nova idade do contato: ");
-				idade = entrada.nextInt();
-				contato.setIdade(idade);
+				System.out.println("Digite o novo Pais: ");
+				pais = entrada.toString();
+				destino.setPais(pais);
+				
+				System.out.println("Digite a nova Cidade: ");
+				cidade = entrada.toString();
+				destino.setCidade(cidade);
 
-				contato.setDataCadastro(new Date());
 
-				contato.setId(codigo);
+				destino.setPais(pais);
+				
+				destino.setCidade(cidade);
 
-				contatoDAO.update(contato);
+				destino.setId_destino(id_destino);
+
+				destinoDAO.update(destino);
 			}
 			case 4: {
-				for (Contato c : contatoDAO.getContatos()) {
-					System.out.println("NOME: " + c.getNome());
-					System.out.println("IDADE: " + c.getIdade());
-					System.out.println("DATA CADASTRO: " + c.getDataCadastro());
+				for (modelo.Destino c : destinoDAO.getDestino()) {
+					System.out.println("id_destino: " + c.getDestino());
+					System.out.println("pais: " + c.getPais());
+					System.out.println("cidade: " + c.getCidade());
 
 					System.out.println("----------------------------------- ");
 				}
@@ -89,20 +114,20 @@ public class Destino {
 				System.out.print("Digite o ID para buscar: ");
 				int id = entrada.nextInt();
 				
-				Contato c = new Contato();
+				Destino c = new Destino();
 
-				c = contatoDAO.getContatoById(id);
+				c = destinoDAO.getId_destinoById(id);
 
-				System.out.println("NOME: " + c.getNome());
-				System.out.println("IDADE: " + c.getIdade());
-				System.out.println("DATA CADASTRO: " + c.getDataCadastro());
+				System.out.println("Id_destino: " + c.getId_destino());
+				System.out.println("Pais: " + c.getPais());
+				System.out.println("Cidade: " + c.getCidade());
 
 				System.out.println("----------------------------------- ");
 			}
 				break;
 
 			case 6: {
-				System.out.println(" === Obrigado por usar nossa Agenda === ");
+				System.out.println(" === Obrigado por usar nossa Agencia === ");
 				break;
 			}
 			default:
@@ -114,5 +139,45 @@ public class Destino {
 
 		entrada.close();
 
+	}
+
+	private String getId_destino() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getCidade() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getPais1() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getPais() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public modelo.Destino getDestino() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void setId_destino(int int1) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setPais(String string) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setCidade(String string) {
+		// TODO Auto-generated method stub
+		
 	}
 }

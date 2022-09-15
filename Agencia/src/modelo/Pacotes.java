@@ -1,6 +1,9 @@
 package modelo;
+import java.sql.Date;
+
 import modelo.Destino;
 
+@SuppressWarnings("unused")
 public class Pacotes {
 	
 	// Atributos
@@ -59,8 +62,8 @@ public class Pacotes {
 			return destino;
 		}
 
-		public void setDestino(Destino destino) {
-			this.destino = destino;
+		public void setDestino(Destino date) {
+			this.destino = date;
 		}
 		
 		//metodos
@@ -90,10 +93,41 @@ public class Pacotes {
 			return super.toString();
 		}
 
+		@SuppressWarnings("deprecation")
 		@Override
 		protected void finalize() throws Throwable {
 			// TODO Auto-generated method stub
 			super.finalize();
+		}
+
+		public void setPromocao(Date date) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		public void setDestino(java.util.Date date) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		public void save(Pacotes pacotesP) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		public void setDestino(double destino2) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		public void removeById(int id_pacote2) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		public void setId(int id_pacote2) {
+			// TODO Auto-generated method stub
+			
 		}
 
 		
