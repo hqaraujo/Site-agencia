@@ -11,8 +11,11 @@ import java.time.LocalDate;
 
 import connection.ConnectionMySQL;
 import modelo.Clientes;
-import modelo.Compras1;
-import modelo.Pacotes;
+import modelo.Compras;
+import modelo.Destino;
+import DAO.ClientesDAO;
+import DAO.DestinoDAO;
+
 
 @SuppressWarnings("unused")
 public class ComprasDAO {
@@ -21,25 +24,37 @@ public class ComprasDAO {
 	PreparedStatement pstm = null;
 
 	// Metodo pra salvar
-	public void save(Compras1 compras) {
+	
+	public void save(Compras compras) {
 		String sql = "INSERT INTO compras (valor_total, forma_pagamento,"
 				+ " valor, data_compras, id_cliente, id_destino) values(?,?,?,?,?,?)";
 		
 		
 		try {
 			// Cria uma conexao com o banco
+			
 			conn = ConnectionMySQL.createConnectionMySQL();
 
 			// Cria um PreparedStatement, classe usada para executar a query
+			
 			pstm = conn.prepareStatement(sql);
 
 			// Adicionar o valor do primeiro parametro da sql
+			
 			pstm.setDouble(1, compras.getValor_total());
 			pstm.setString(2, compras.getForma_pagamento());
 			pstm.setDouble(3, compras.getValor());
 			SimpleDateFormat formatter = new SimpleDateFormat("d/MM/yyyy");
-            pstm.setDate(4, new Date(formatter.parse(compras.getData_compras()).getTime()));
+            pstm.setDate(4, new Date (formatter.parse(compras.getData_compras()).getTime()));
+            
+            pstm.setInt(5,compras.getClientes().getId_cliente());
+            pstm.setInt(6,compras.getDestino().getId_destino());
+            
+            
+          
+            
 			// Executar a sql para inser��o dos dados
+            
 			pstm.execute();
 
 		} catch (Exception e) {
@@ -60,12 +75,14 @@ public class ComprasDAO {
 	}
 
 	// Metodo para Ler
-	public List<Compras1> getCompras1() {
+	
+	public List<Compras> getCompras1() {
 		String sql = "select * from compras;";
 
-		List<Compras1> compras = new ArrayList<Compras1>();
+		List<Compras> compras = new ArrayList<Compras>();
 
 		// Classe que vai recuperar os dados do banco de dados
+		
 		ResultSet rset = null;
 
 		try {
@@ -76,20 +93,25 @@ public class ComprasDAO {
 			rset = pstm.executeQuery();
 
 			while (rset.next()) {
-				Compras1 compra = new Compras1();
+				Compras compras1 = new Compras();
+				Destino destino = new Destino();
+				Clientes clientes = new Clientes();
+				
+				compras1.setId_compras(rset.getInt("id_compras"));
 
-				compra.setValor_total(rset.getDouble("valor_total"));
+				compras1.setValor_total(rset.getDouble("valor_total"));
 
-				compra.setForma_pagamento(rset.getString("forma_pagamento"));
+				compras1.setForma_pagamento(rset.getString("forma_pagamento"));
 
-				compra.setValor(rset.getDouble("valor"));
+				compras1.setValor(rset.getDouble("valor"));
 
 				SimpleDateFormat dateFormat = new SimpleDateFormat("d/MM/yyyy");
-                compra.setData_compras(dateFormat.format(rset.getDate("data_compras")));
-
-				compra.setId_compras(rset.getInt("id_compras"));
-
-				compra.add(compra);
+                compras1.setData_compras(dateFormat.format(rset.getDate("data_compras")));
+				clientes.setId_cliente(rset.getInt("id_cliente"));
+				destino.setId_destino(rset.getInt("id_destino"));
+				
+				
+				compras1.add(compras1);
 
 			}
 
@@ -116,7 +138,7 @@ public class ComprasDAO {
 	}
 	// Metodo pra atualizar
 
-	public void update(Compras1 compras) {
+	public void update(Compras compras) {
 		String sql = "UPDATE compras set valor_total = ?" + " forma_pagamento = ?" + " valor = ?" + "data_compras = ?"
 				+ "where id_compras = ?;";
 
@@ -134,7 +156,7 @@ public class ComprasDAO {
 			SimpleDateFormat formatter = new SimpleDateFormat("d/MM/yyyy");
             pstm.setDate(4, new Date(formatter.parse(compras.getData_compras()).getTime()));
 
-			pstm.setInt(5, compras.getId_cliente());
+			pstm.setInt(5, compras.getId_compras());
 
 			pstm.execute();
 
@@ -155,6 +177,7 @@ public class ComprasDAO {
 	}
 
 	// Metodo para deletar
+	
 	public void deleteById(int id) {
 		String sql = "DELETE FROM compras WHERE id_compras = ?";
 
@@ -183,10 +206,10 @@ public class ComprasDAO {
 		}
 	}
 
-	public Compras1 getCompras1ById(int id) {
+	public Compras getComprasById(int id) {
 		String sql = "SELECT * FROM compras WHERE id_compras = ?;";
 
-		Compras1 compras = new Compras1();
+		Compras compras = new Compras();
 
 		ResultSet rset = null;
 
@@ -230,5 +253,7 @@ public class ComprasDAO {
 
 		return compras;
 	}
+
+	
 
 }

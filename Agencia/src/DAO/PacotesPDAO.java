@@ -7,30 +7,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 import connection.ConnectionMySQL;
-import crud.pacotesPromocionais;
+
 import modelo.Pacotes;
+
+//SAVE-CREATE
 public class PacotesPDAO {
 
 	Connection conn = null;
 	PreparedStatement pstm = null;
 
-	// Metodo pra salvar
-	public void save(Pacotes pacotes) {
-		String sql = "INSERT INTO pacotesPromocionais (origem, promocao) values(?,?)";
-		
-		
+	public void save(Pacotes pacote) {
+		String sql = "INSERT INTO pacotesviagem (origem, promocao) values (?, ?)";
+
 		try {
 			// Cria uma conexao com o banco
 			conn = ConnectionMySQL.createConnectionMySQL();
-
 			// Cria um PreparedStatement, classe usada para executar a query
 			pstm = conn.prepareStatement(sql);
-
 			// Adicionar o valor do primeiro parametro da sql
-			pstm.setString(1, pacotes.getOrigem());
-			pstm.setDouble(2, pacotes.getPromocao());
-			
-			
+			pstm.setString(1, pacote.getOrigem());
+			pstm.setDouble(2, pacote.getPromocao());
 
 			// Executar a sql para inser��o dos dados
 			pstm.execute();
@@ -49,16 +45,13 @@ public class PacotesPDAO {
 				e.printStackTrace();
 			}
 		}
-
 	}
 
 	// Metodo para Ler
 	public List<Pacotes> getPacotes() {
-		String sql = "select * from pacotesPromocionais;";
+		String sql = "select * from pacotes;";
 
-		List<Pacotes> lista = new ArrayList<Pacotes>();
-
-		// Classe que vai recuperar os dados do banco de dados
+		List<Pacotes> listaPacotes = new ArrayList<Pacotes>();
 		ResultSet rset = null;
 
 		try {
@@ -69,23 +62,14 @@ public class PacotesPDAO {
 			rset = pstm.executeQuery();
 
 			while (rset.next()) {
-				Pacotes pacotes = new Pacotes();
-				
+				Pacotes pacote = new Pacotes();
 
-				pacotes.setId_pacote(rset.getInt("id_pacote"));
+				pacote.setId_pacote1(rset.getInt("id_pacote"));
+				pacote.setOrigem(rset.getString("origem"));
+				pacote.setPromocao(rset.getDouble("promocao"));
 
-				pacotes.setOrigem(rset.getString("origem"));
-				
-				pacotes.setPromocao(rset.getDouble("promocao"));
-				
-				pacotes.setPromocao(rset.getDate("destino"));
-
-				
-				
-				lista.add(pacotes);
-
+				listaPacotes.add(pacote);
 			}
-
 		} catch (Exception e) {
 			e.printStackTrace();
 
@@ -104,26 +88,20 @@ public class PacotesPDAO {
 				e.printStackTrace();
 			}
 		}
-
-		return lista;
+		return listaPacotes;
 	}
-	// Metodo pra atualizar
 
-	public void update(Pacotes pacotes) {
-		String sql = "UPDATE pacotesPromocionais set origem = ?" + "promocao = ?" + "destino = ?" + "where id_pacote = ?;";
+	// UPDATE
+	public void update(Pacotes pacote) {
+		String sql = "UPDATE pacotesviagem SET origem= ?, promocao = ?  WHERE id_pacote = ?";
 
 		try {
 			conn = ConnectionMySQL.createConnectionMySQL();
-
 			pstm = conn.prepareStatement(sql);
 
-
-			pstm.setString(1, pacotes.getOrigem());
-			
-			pstm.setDouble(2, pacotes.getPromocao());
-			
-			
-			pstm.setInt(4, pacotes.getId_pacote());
+			pstm.setString(1, pacote.getOrigem());
+			pstm.setDouble(2, pacote.getPromocao());
+			pstm.setInt(3, pacote.getId_pacote());
 
 			pstm.execute();
 
@@ -143,17 +121,15 @@ public class PacotesPDAO {
 		}
 	}
 
-	// Metodo para deletar
+	// DELETE
 	public void deleteById(int id) {
-		String sql = "DELETE FROM pacotesPromocionais WHERE id_pacotes = ?";
+		String sql = "DELETE FROM pacotes WHERE id_pacote = ?";
 
 		try {
 			conn = ConnectionMySQL.createConnectionMySQL();
-
 			pstm = conn.prepareStatement(sql);
 
 			pstm.setInt(1, id);
-
 			pstm.execute();
 
 		} catch (Exception e) {
@@ -172,31 +148,25 @@ public class PacotesPDAO {
 		}
 	}
 
+	// BUSCAR POR ID
 	public Pacotes getPacotesById(int id) {
-		String sql = "SELECT * FROM pacotesPromocionais WHERE id_pacote = ?;";
+		String sql = "select * from pacotes WHERE id_pacote = ?";
 
-		Pacotes pacotes = new Pacotes();
-
+		Pacotes pacote = new Pacotes();
 		ResultSet rset = null;
 
 		try {
 			conn = ConnectionMySQL.createConnectionMySQL();
-
 			pstm = conn.prepareStatement(sql);
 
 			pstm.setInt(1, id);
-
 			rset = pstm.executeQuery();
-
 			rset.next();
 
-			pacotes.setId_pacote(rset.getInt("id_pacote"));
+			pacote.setId_pacote1(rset.getInt("id_pacote"));
+			pacote.setOrigem(rset.getString("origem"));
+			pacote.setPromocao(rset.getDouble("promocao"));
 
-			pacotes.setOrigem(rset.getString("origem"));
-			
-			pacotes.setPromocao(rset.getDouble("promocao"));
-			
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -211,14 +181,7 @@ public class PacotesPDAO {
 				e.printStackTrace();
 			}
 		}
-
-		return pacotes;
-	}
-
-	public pacotesPromocionais getId_pacoteById(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		return pacote;
 	}
 
 }
-

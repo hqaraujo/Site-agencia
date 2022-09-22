@@ -10,15 +10,17 @@ import java.util.List;
 
 import connection.ConnectionMySQL;
 import modelo.Destino;
+import modelo.Pacotes;
 
-public class DestinoDao {
+
+public class DestinoDAO {
 
 	Connection conn = null;
 	PreparedStatement pstm = null;
 
 	// Metodo pra salvar
-	public void save(crud.Destino destino1) {
-		String sql = "INSERT INTO destino (pais, cidade, id_destino) values(?,?,?)";
+	public void save(Destino destino) {
+		String sql = "INSERT INTO destino (pais, cidade, id_pacote) values(?,?,?)";
 		
 		
 		try {
@@ -29,10 +31,9 @@ public class DestinoDao {
 			pstm = conn.prepareStatement(sql);
 
 			// Adicionar o valor do primeiro parametro da sql
-			pstm.setNString(1, destino1.getPais());
-			pstm.setString(1, destino1.getCidade());
-			
-			pstm.setInt(3,destino1.getDestino().getId_destino());
+			pstm.setNString(1, destino.getPais());
+			pstm.setString(2, destino.getCidade());
+			pstm.setInt(3,destino.getPacotes().getId_pacote());
 			
 		
 			
@@ -61,8 +62,6 @@ public class DestinoDao {
 		String sql = "select * from destino;";
 
 		List<Destino> lista = new ArrayList<Destino>();
-
-		// Classe que vai recuperar os dados do banco de dados
 		ResultSet rset = null;
 
 		try {
@@ -80,7 +79,12 @@ public class DestinoDao {
 				destino.setPais(rset.getString("Pais"));
 				
 				destino.setCidade(rset.getString("Cidade"));
+				
+				
+				Pacotes pacotes = new Pacotes();
+				pacotes.setId_pacote1(rset.getInt("id_pacote"));
 
+			
 				lista.add(destino);
 
 			}
@@ -212,21 +216,7 @@ public class DestinoDao {
 		return destino;
 	}
 
-	public void update(crud.Destino destino) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void removeById(int id_destino) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public crud.Destino getId_destinoById(int id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	
 }
 
 

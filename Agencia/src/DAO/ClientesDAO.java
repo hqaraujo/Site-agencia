@@ -72,6 +72,7 @@ public class ClientesDAO {
 			rset = pstm.executeQuery();
 
 			while (rset.next()) {
+				
 				Clientes cliente = new Clientes();
 				Login login =new Login();
 
@@ -121,15 +122,16 @@ public class ClientesDAO {
 			conn = ConnectionMySQL.createConnectionMySQL();
 
 			pstm = conn.prepareStatement(sql);
+			
+			pstm.setInt(1, clientes.getLogin().getId_login());
 
-
-			pstm.setString(1, clientes.getCpf_cliente());
+			pstm.setString(2, clientes.getCpf_cliente());
 			
-			pstm.setString(2, clientes.getNome_cliente());
+			pstm.setString(3, clientes.getNome_cliente());
 			
-			pstm.setString(3, clientes.getEmail_cliente());
+			pstm.setString(4, clientes.getEmail_cliente());
 			
-			pstm.setInt(4, clientes.getId_cliente());
+			pstm.setInt(5, clientes.getId_cliente());
 
 			pstm.execute();
 
@@ -190,7 +192,7 @@ public class ClientesDAO {
 
 			pstm = conn.prepareStatement(sql);
 
-			pstm.setInt(1, id);
+			pstm.setInt(id, id);
 
 			rset = pstm.executeQuery();
 
@@ -203,6 +205,8 @@ public class ClientesDAO {
 			cliente.setNome_cliente(rset.getString("nome_cliente"));
 			
 			cliente.setEmail_cliente(rset.getString("email_cliente"));
+			
+			
 
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -93,6 +93,12 @@ public Clientes() {
 		}
 
 
+		public String getClientes() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+
 	
 			
 		}
